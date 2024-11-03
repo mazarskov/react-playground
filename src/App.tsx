@@ -2,6 +2,8 @@ import "./App.css";
 import { useReducer, useEffect, useState, Dispatch } from "react";
 import { Joke, useFetch } from "./components/fetch-jokes";
 import { jokesReducer } from "./components/reduce-function";
+import Jokes from "./components/Jokes";
+import { JokesProvider } from "./components/JokesProvider";
 
 export interface JokesAction {
   type: 'AMOUNT_ADDED',
@@ -44,50 +46,9 @@ export default function App() {
         <input type="number" onChange={handleAmountChange} className="input"/>
         <button type="submit" className="submitButton">Add</button>
       </form>
-      <ul>
-      {state.jokes.map(joke => (
-            <li key={joke.id}>{joke.joke}</li>
-          ))}
-      </ul>
+      <JokesProvider jokeAmount={jokeAmount}>
+        <Jokes />
+      </JokesProvider>
     </>
   );
 }
-
-// export default function App() {
-//   const [jokeAmount, setJokeAmount] = useState<number>(10);
-//   //const customHookFetch: Joke[] = useFetch('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single&amount=', jokeAmount);
-//   // console.log("cust",customHookFetch);
-//   const [joke, setJoke]:Joke[] = useFetch('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single&amount=', jokeAmount);
-//   console.log(joke, "fdsfdsfdsfsdfsdfdsfsdfdsf");
-//   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     setJokeAmount(Number(event.target.value));
-//   };
-
-//   return (
-//     <>
-//       <input type="number" onChange={handleAmountChange}></input>
-//       <ul>
-//         {/* {joke.map((j) => <li>{j.joke}</li>)} */}
-//       </ul>
-//     </>
-//   );
-// }
-
-  // useEffect(() => {
-  //    const fetchJoke = async() => {
-  //     const response = await fetch('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&type=single&amount='+ jokeAmount);
-  //     if (!response.ok) {
-  //       throw new Error(`An errror has occured: ${response.status}`)
-  //     }
-      
-  //     const jokes = await response.json();
-  //     console.log(jokes);
-  //     if(jokeAmount === 1){
-  //       setJoke([jokes]);
-  //     }
-  
-  //     setJoke(jokes.jokes);
-  //   }
-  //   fetchJoke();
-  // }, [jokeAmount]);
-
